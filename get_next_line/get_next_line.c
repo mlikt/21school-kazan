@@ -59,6 +59,8 @@ int	get_next_line(int fd, char **line)
 		|| fd >= 10239)
 		return (-1);
 	buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buf)
+		return (-1);
 	read_chr = 1;
 	p_n = check_rem(&rem[fd], line);
 	while ((read_chr > 0) && !p_n)
