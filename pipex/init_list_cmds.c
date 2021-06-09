@@ -54,11 +54,9 @@ char	***init_list_cmds(char **argv, int argc, char **enpv, int *count)
 
 void	free_list_cmds(char ***list_cmds, int size)
 {
-	char	***tmp;
 	int		i;
 
 	i = 0;
-	tmp = list_cmds;
 	while (i < size)
 	{
 		if (list_cmds[i])
