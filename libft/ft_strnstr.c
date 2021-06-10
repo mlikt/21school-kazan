@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlikt <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: mlikt <mlikt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 16:05:26 by mlikt             #+#    #+#             */
-/*   Updated: 2021/04/26 22:43:08 by mlikt            ###   ########.fr       */
+/*   Updated: 2021/06/10 04:14:12 by mlikt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,4 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 		m++;
 	}
 	return ((void *)0);
-}
-
-int main(void)
-{
-	printf("%s\n", ft_strnstr("aaabcabcd", "aabc", -1));
 }

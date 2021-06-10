@@ -7,19 +7,26 @@ BONUS_O = ${BONUS:.c=.o}
 CFLAGS = -Wall -Wextra -Werror -I libft.h
 CC = gcc
 NAME = libft.a
+
+%.o:		%.c ${HEADER}
+		$(CC) $(CFLAGS) -c -o $@ $<
+
 all: ${NAME} 
 
 ${NAME}: ${OFILE} libft.h 
-	ar rcs ${NAME} ${OFILE}
+	@ar rcs ${NAME} ${OFILE}
+	@echo "Library collected"
 
 bonus: ${BONUS_O} ${OFILE}
 	ar rc ${NAME} ${OFILE} ${BONUS_O}
 
 clean:
-	rm -rf ${OFILE} ${BONUS_O}
+	@rm -rf ${OFILE} ${BONUS_O}
+	@echo "Remove object file"
 
 fclean: clean
-	rm -rf ${NAME}
+	@rm -rf ${NAME}
+	@echo "Remove libft.a"
 
 re: fclean all
 

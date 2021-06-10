@@ -12,13 +12,13 @@ char	*check_rem(char **rem, char **line)
 		if (tmp)
 		{
 			*tmp = '\0';
-			*line = ft_strjoin(*line, *rem);
+			*line = gnl_strjoin(*line, *rem);
 			tmp++;
 			ft_strlcpy(*rem, tmp, ft_strlen(tmp) + 1);
 		}
 		else
 		{
-			*line = ft_strjoin(*line, *rem);
+			*line = gnl_strjoin(*line, *rem);
 			free(*rem);
 			*rem = NULL;
 		}
@@ -69,7 +69,7 @@ int	get_next_line(int fd, char **line)
 		if (read_chr == -1)
 			return (free_if_error(buf, line));
 		get_rem(&buf, &rem[fd], read_chr, &p_n);
-		*line = ft_strjoin(*line, buf);
+		*line = gnl_strjoin(*line, buf);
 	}
 	free(buf);
 	if (!read_chr)

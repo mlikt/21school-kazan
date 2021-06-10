@@ -30,3 +30,10 @@ void	rr(t_list **A, t_list **B)
 	rotate(B);
 	ft_putendl_fd("rr", 1);
 }
+
+void	ss(t_list **A, t_list **B)
+{
+	swap(A);
+	swap(B);
+	ft_putendl_fd("ss", 1);
+}
