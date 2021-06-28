@@ -35,7 +35,7 @@ clean:
 	@echo "Remove objectfile"
 fclean:
 	@sh -c 'for directory in ${DIRECTORY}; do make -C $$directory fclean; done'
-	@rm -rf ${OFILE}
+	@rm -rf ${OFILE} ${NAME}
 	@echo "Remove object file"
 re: fclean all
 .PHONY : all clean fclean re
