@@ -20,7 +20,7 @@ OFILE = ${CFILE:.c=.o}
 HEADER = ./header/cube.h
 CFLAGS = -Wall -Wextra -Werror -I ${HEADER}
 CC = gcc
-NAME = cubeD
+NAME = cub3D
 
 %.o:		%.c ${HEADER}
 		$(CC) $(CFLAGS) -c -o $@ $<
