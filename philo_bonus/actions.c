@@ -24,7 +24,7 @@ int	eating(t_philos *ph)
 
 	status(ph->rule->sem_print, EAT, get_time() - ph->timer->v, ph->n);
 	ph->eat++;
-	if (ph->eat == ph->rule->number_of_eating)
+	if (ph->n == ph->rule->number_of_philo && ph->eat == ph->rule->number_of_eating)
 		return (1);
 	fix = supervision(ph->rule->time_of_eat, ph);
 	return (fix);
