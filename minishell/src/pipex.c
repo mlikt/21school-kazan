@@ -73,7 +73,10 @@ int	pipex(t_block *block, char **envp, int in)
 		return (flag);
 	block->pid = fork();
 	if (block->pid == -1)
-		crash();
+	{
+		perror("minishell: fork");
+		return (-1);
+	}
 	if (block->pid)
 	{
 		if (!get_index_builtin(block->cmd->name))

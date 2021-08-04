@@ -1,5 +1,33 @@
 #include "../includes/minishell.h"
 
+void	close_all_pipe(t_block *block)
+{
+	while (block)
+	{
+		if (block->fd_pipe_out > 2)
+			close(block->fd_pipe_out);
+		if (block->fd_pipe_in > 2)
+			close(block->fd_pipe_in);
+		block = block->next;
+	}
+}
+
+void	kill_childprocess(t_block *block)
+{
+	t_block *copy;
+
+	copy = block;
+	while (block)
+	{
+		if (block->pid != 0 && block->pid != -1)
+		{
+			kill(block->pid, SIGKILL);
+		}
+		block = block->next;
+	}
+	close_all_pipe(copy);
+}
+
 void	one_cmd(t_block *block)
 {
 	pid_t	pid;
@@ -20,28 +48,6 @@ void	one_cmd(t_block *block)
 		exec_cmd(block->cmd, convert_list_in_arr(g_main_data.list_envp));
 	wait(&status);
 	g_main_data.exit_status = WEXITSTATUS(status);
-}
-
-void	kill_childprocess(t_block *block)
-{
-	while (block)
-	{
-		if (block->pid)
-			kill(block->pid, SIGKILL);
-		block = block->next;
-	}
-}
-
-void	close_all_pipe(t_block *block)
-{
-	while (block)
-	{
-		if (block->fd_pipe_out > 2)
-			close(block->fd_pipe_out);
-		if (block->fd_pipe_in > 2)
-			close(block->fd_pipe_in);
-		block = block->next;
-	}
 }
 
 void	wait_child(t_block *block)
@@ -70,6 +76,8 @@ void	read_block(char **elements, char **help_elements)
 {
 	t_block	*block;
 	char	**envp;
+	pid_t	pid;
+	int		status;
 
 	block = create_pipe_block(elements, help_elements, 0, 1);
 	if (!block)
@@ -77,10 +85,19 @@ void	read_block(char **elements, char **help_elements)
 	if (block->next)
 	{
 		envp = convert_list_in_arr(g_main_data.list_envp);
-		if (pipex(block, envp, STDIN) != -1)
-			wait_child(block);
-		else
-			kill_childprocess(block);
+		pid = fork();
+		if(pid == -1)
+			crash();
+		if (!pid)
+		{
+			if (pipex(block, envp, STDIN) != -1)
+				wait_child(block);
+			else
+				kill_childprocess(block);
+			exit (g_main_data.exit_status);
+		}
+		wait(&status);
+		g_main_data.exit_status = WEXITSTATUS(status);
 		free_arr(envp, count_arr(envp));
 	}
 	else
