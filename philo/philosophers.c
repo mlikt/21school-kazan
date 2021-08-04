@@ -24,9 +24,9 @@ void	*actions(void *philos_ptr)
 
 	ph = (t_philos *)philos_ptr;
 	ph->limit = get_time() + ph->rule->time_of_die;
+	if_one(ph);
 	while (1)
 	{
-		if_one(ph);
 		get_fork(ph);
 		dead(ph);
 		ph->limit = get_time() + ph->rule->time_of_die;

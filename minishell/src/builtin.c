@@ -24,7 +24,9 @@ int	get_index_builtin(char	*name)
 int	get_output_value(t_cmd *cmd)
 {
 	if (!cmd->arg[1])
-		return (0);
+		return (g_main_data.exit_status);
+	if (count_arr(cmd->arg) > 2)
+		return (256);
 	if (!ft_overlap(cmd->arg[1], "-+0123456789"))
 	{
 		write(2, "minishell: exit: ", 17);
@@ -32,15 +34,12 @@ int	get_output_value(t_cmd *cmd)
 		write(2, ": numeric argument required\n", 29);
 		return (255);
 	}
-	if (count_arr(cmd->arg) > 2)
-		return (256);
 	return (ft_atoi(cmd->arg[1]) & 255);
 }
 
 void	my_exit(t_cmd *cmd)
 {
 	int	out;
-
 	set_terminal(0);
 	write(1, "💔💔💔 \x1b[36msee ya later \x1b[31m↻\x1b[0m\n",
 		 ft_strlen("💔💔💔 \x1b[36msee ya later \x1b[31m↻\x1b[0m\n"));
