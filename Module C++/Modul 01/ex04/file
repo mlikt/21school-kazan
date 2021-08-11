@@ -1,0 +1,21 @@
+Member accessibility
+"Private member" redirects here. For other uses, see Private members club and Private member's bill.
+Further information: Information hiding
+The following is a common set of access specifiers:[11]
+
+Private (or class-private) restricts the access to the class itself. Only methods that are part of the same class can access private members.
+Protected (or class-protected) allows the class itself and all its subclasses to access the member.
+Public means that any code can access the member by its name.
+Although many object-oriented languages support the above access specifiers, their semantics may differ.
+
+Object-oriented design uses the access specifiers in conjunction with careful design of public method implementations to enforce class invariants—constraints on the state of the objects. A common usage of access specifiers is to separate the internal data of a class from its interface: the internal structure is made private, while public accessor methods can be used to inspect or alter such private data.
+
+Access specifiers do not necessarily control visibility, in that even private members may be visible to client external code. In some languages, an inaccessible but visible member may be referred to at run-time (for example, by a pointer returned from a member function), but an attempt to use it by referring to the name of the member from client code will be prevented by the type checker.[12]
+
+The various object-oriented programming languages enforce member accessibility and visibility to various degrees, and depending on the language's type system and compilation policies, enforced at either compile-time or run-time. For example, the Java language does not allow client code that accesses the private data of a class to compile. [13] In the C++ language, private methods are visible, but not accessible in the interface; however, they may be made invisible by explicitly declaring fully abstract classes that represent the interfaces of the class.[14]
+
+Some languages feature other accessibility schemes:
+
+Instance vs. class accessibility: Ruby supports instance-private and instance-protected access specifiers in lieu of class-private and class-protected, respectively. They differ in that they restrict access based on the instance itself, rather than the instance's class.[15]
+Friend: C++ supports a mechanism where a function explicitly declared as a friend function of the class may access the members designated as private or protected.[16]
+Path-based: Java supports restricting access to a member within a Java package, which is the logical path of the file. However, it is a common practice when extending a Java framework to implement classes in the same package as a framework class in order to access protected members. The source file may exist in a completely different location, and may be deployed to a different .jar file, yet still be in the same logical path as far as the JVM is concerned.[11]
