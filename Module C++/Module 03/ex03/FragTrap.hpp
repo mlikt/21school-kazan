@@ -10,9 +10,9 @@ public:
 	FragTrap(FragTrap const &copy);
 	FragTrap &operator=(FragTrap const &value);
 	virtual ~FragTrap();
-	void	attack		( std::string const &name	);
-	void	takeDamage	( unsigned int amount		);
-	void	beRepaired	( unsigned int amount		);
+	virtual void	attack		( std::string const &name	);
+	virtual void	takeDamage	( unsigned int amount		);
+	virtual void	beRepaired	( unsigned int amount		);
 	void			highFivesGueys();
 };
 
