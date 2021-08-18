@@ -1,7 +1,7 @@
 #include "ClapTrap.hpp"
 
 ClapTrap::ClapTrap()
-:name(""), hitpoints(10), 
+:name("Noname"), hitpoints(10), 
 energy_points(10), attack_damage(0)
 {
 	std::cout << "Nameless ClapTrap warrior created" << std::endl;

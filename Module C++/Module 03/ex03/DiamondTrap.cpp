@@ -35,6 +35,18 @@ name(name)
 	<< "Attack damage: " <<  this->attack_damage << std::endl;
 }
 
+DiamondTrap::DiamondTrap(DiamondTrap const &copy)
+: ClapTrap(copy.name + "_clap_trap", 100, 50, 30), FragTrap(copy.name), ScavTrap(copy.name),
+name(copy.name)
+{
+	std::cout << "I'm " << copy.name 
+	<< " clone my bro and his name is also " 
+	<< copy.name << "!" << std::endl;
+	std::cout << "Hitpoints: " << this->hitpoints << ", " 
+	<< "Energy points: " << this->energy_points << ", " 
+	<< "Attack damage: " <<  this->attack_damage << std::endl;
+}
+
 DiamondTrap::~DiamondTrap()
 {
 	std::cout << "DiamondTrap " << this->name << " destroyed" << std::endl;
