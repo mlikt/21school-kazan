@@ -11,6 +11,19 @@ name("Noname")
 	<< "Attack damage: " <<  this->attack_damage << std::endl;
 }
 
+DiamondTrap &DiamondTrap::operator = (DiamondTrap const &value)
+{
+	std::cout << "I'm " << value.name 
+	<< " gave my experience my bro and his name is also " 
+	<< value.name << "!" << std::endl;
+
+	this->name			= value.name;
+	this->hitpoints		= value.hitpoints;
+	this->energy_points	= value.energy_points;
+	this->attack_damage	= value.attack_damage;
+	return (*this);
+}
+
 DiamondTrap::DiamondTrap(std::string const &name)
 : ClapTrap(name + "_clap_trap", 100, 50, 30), FragTrap(name), ScavTrap(name),
 name(name)
