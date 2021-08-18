@@ -10,9 +10,9 @@ public:
 	ScavTrap(ScavTrap const &copy);
 	ScavTrap &operator=(ScavTrap const &value);
 	virtual ~ScavTrap();
-	virtual void attack		( std::string const &name	);
-	virtual void takeDamage	( unsigned int amount		);
-	virtual void beRepaired	( unsigned int amount		);
+	void attack		( std::string const &name	);
+	void takeDamage	( unsigned int amount		);
+	void beRepaired	( unsigned int amount		);
 	void guardGate ();
 };
 
