@@ -10,7 +10,7 @@ Character::~Character(){
 	for(int i = 0; i < 4; i++)
 	{
 		if(this->slot[i])
-			this->slot[i]->~AMateria();
+			delete this->slot[i];
 	}
 	std::cout << "Character " << this->name << " is destroyed" << std::endl;
 }

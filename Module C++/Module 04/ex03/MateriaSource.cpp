@@ -8,7 +8,7 @@ MateriaSource::MateriaSource(): Number_example(0) {
 
 MateriaSource::~MateriaSource(){
 	for(int i = 0; i < this->Number_example; i++)
-		this->Cookbook[i]->~AMateria();
+		delete this->Cookbook[i];
 	std::cout << "MateriaSource destroyed" << std::endl;
 }
 
