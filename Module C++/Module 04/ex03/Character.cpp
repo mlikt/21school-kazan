@@ -67,6 +67,6 @@ void	Character::use( int idx, ICharacter &target){
 	}
 	std::cout << this->name ;
 	this->slot[idx]->use(target);
-	this->slot[idx]->~AMateria();
+	delete this->slot[idx];
 	this->slot[idx] = nullptr;
 }

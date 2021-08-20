@@ -16,7 +16,7 @@ void MateriaSource::learnMateria(AMateria *example){
 	if (this->Number_example >= 4)
 	{
 		std::cout << "Coockbook is full" << std::endl;
-		example->~AMateria();
+		delete example;
 		return ;
 	}
 	std::cout << "Matter " << example->getType() << " studied and recorded in the cookbook" << std::endl;
