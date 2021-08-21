@@ -7,10 +7,8 @@ Point::Point (Point const &copy)
 	*this = copy;
 }
 
-Point::Point (float const &x, float const &y)
+Point::Point (float const &x, float const &y): x(x), y(y)
 {
-	this->x = Fixed(x);
-	this->y = Fixed(y);
 }
 
 Fixed Point::getX( void ) const
@@ -25,8 +23,8 @@ Fixed Point::getY( void ) const
 
 Point &Point::operator=(Point const &p)
 {
-	this->x = p.getX();
-	this->y = p.getY();
+	const_cast<Fixed &>(this->x) = p.getX();
+	const_cast<Fixed &>(this->y) = p.getY();
 	return (*this);
 }
 
