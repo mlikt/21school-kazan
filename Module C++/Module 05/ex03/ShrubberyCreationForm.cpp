@@ -32,6 +32,7 @@ void ShrubberyCreationForm::execute ( Bureaucrat const &executer ) const {
 	std::ofstream out_file;
 	out_file.open(this->target + "_shrubbery");
 	out_file << tree.getTree();
+	out_file.close();
 }
 
 Form* ShrubberyCreationForm::createDublicate	( std::string const &target){
