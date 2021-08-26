@@ -9,7 +9,16 @@ size_t	get_index_char (std::string const &argument) {
 
 bool	find_nan_or_inf (std::string const &argument) {
 	if((!argument.find("nan") && argument.length() == 3 )
-		|| (!argument.find("inf") && argument.length() == 3))
+		|| (!argument.find("inf") && argument.length() == 3)
+		|| (!argument.find("nanf") && argument.length() == 4)
+		|| (!argument.find("inff") && argument.length() == 4)
+		|| (!argument.find("-nanf") && argument.length() == 5)
+		|| (!argument.find("+nanf") && argument.length() == 5)
+		|| (!argument.find("-inff") && argument.length() == 5)
+		|| (!argument.find("+inff") && argument.length() == 5)
+		|| (!argument.find("-inf") && argument.length() == 4)
+		|| (!argument.find("+inf") && argument.length() == 4)
+		)
 		return (true);
 	return (false);
 }
