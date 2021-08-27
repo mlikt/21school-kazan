@@ -29,7 +29,7 @@ Fixed &Fixed::operator = (Fixed const &number)
 
 Fixed &Fixed::operator = (double const &floating)
 {
-	this->rawBits = (int)(std::roundf( ((double)floating * (double)Fixed::_fraction_bits)));
+	this->rawBits = (int)(std::roundf( ((double)floating * (double)(1 << Fixed::_fraction_bits))));
 	return (*this);
 }
 
@@ -42,7 +42,7 @@ Fixed &Fixed::operator = (int const &integer)
 float Fixed::toFloat( void ) const
 {
 	double out;
-	out = ((double)(this->rawBits) / (double)Fixed::_fraction_bits);
+	out = ((double)(this->rawBits) / (double)(1 << Fixed::_fraction_bits));
 	return (out);
 }
 
