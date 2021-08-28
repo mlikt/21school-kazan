@@ -12,8 +12,6 @@ bool	find_nan_or_inf (std::string const &argument) {
 		|| (!argument.find("inf") && argument.length() == 3)
 		|| (!argument.find("nanf") && argument.length() == 4)
 		|| (!argument.find("inff") && argument.length() == 4)
-		|| (!argument.find("-nanf") && argument.length() == 5)
-		|| (!argument.find("+nanf") && argument.length() == 5)
 		|| (!argument.find("-inff") && argument.length() == 5)
 		|| (!argument.find("+inff") && argument.length() == 5)
 		|| (!argument.find("-inf") && argument.length() == 4)
