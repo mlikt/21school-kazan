@@ -191,8 +191,7 @@ void pipex (comands *cmd, int in, char **envp)
 	}
 	else
 	{
-		if (cmd->next)
-			if(close(fd[1]) < 0)
+		close(fd[1]);
 		if (in > 2)
 			close(in);
 		pipex(cmd->next, fd[0], envp);
@@ -220,7 +219,7 @@ int microshell(t_block *block, char **envp)
 	{
 		if(block->cmd->next)
 		{
-			pipex(block->cmd, 1, envp);
+			pipex(block->cmd, 0, envp);
 			comands *tmp = block->cmd;
 			while(tmp)
 			{
