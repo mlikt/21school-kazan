@@ -13,19 +13,19 @@ void identify (Base *p) {
 void identify (Base &p) {
 	try
 	{
-		A &a = dynamic_cast<A&>(p);
+		A a = dynamic_cast<A&>(p);
 		std::cout << "A" << std::endl;
 	}
 	catch(...){}
 	try
 	{
-		B &a = dynamic_cast<B&>(p);
+		B a = dynamic_cast<B&>(p);
 		std::cout << "B" << std::endl;
 	}
 	catch(...){}
 	try
 	{
-		C &a = dynamic_cast<C&>(p);
+		C a = dynamic_cast<C&>(p);
 		std::cout << "C" << std::endl;
 	}
 	catch(...){}
