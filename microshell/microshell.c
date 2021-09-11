@@ -173,7 +173,7 @@ comand_block *get_cmds(char **argv)
 
 void pipex (pipe_block *cmd, int in, char **envp)
 {
-	int fd[2];
+	int fd[2] = {0, 0};
 	pid_t pid;
 	
 	if (!cmd)
@@ -188,7 +188,7 @@ void pipex (pipe_block *cmd, int in, char **envp)
 	{
 		if (cmd->next)
 			close(fd[0]);
-		if (dup2(in, 0) < 0)
+		if (in && (dup2(in, 0) < 0))
 				exit_error("error: fatal\n", NULL);
 		if (cmd->next)
 			if (dup2(fd[1], 1) < 0)
@@ -198,7 +198,8 @@ void pipex (pipe_block *cmd, int in, char **envp)
 	}
 	else
 	{
-		close(fd[1]);
+		if (fd[1])
+			close(fd[1]);
 		if (in > 2)
 			close(in);
 		pipex(cmd->next, fd[0], envp);
