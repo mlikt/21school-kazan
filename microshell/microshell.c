@@ -124,7 +124,7 @@ comand_block *get_cmds(char **argv)
 
 	while (argv[i])
 	{
-		if (!tmp->cmd->name)
+		if (!tmp->cmd->name && strcmp(";", argv[i]) && strcmp("|", argv[i]))
 		{
 			tmp->cmd->name = argv[i];
 			tmp->cmd->argv[0] = argv[i];
@@ -143,7 +143,7 @@ comand_block *get_cmds(char **argv)
 			i++;
 			continue ;
 		}
-		if (!strcmp(";", argv[i]))
+		if (!strcmp(";", argv[i]) && tmp->cmd->argv[0])
 		{
 			if (first_cmd)
 			{
@@ -158,7 +158,8 @@ comand_block *get_cmds(char **argv)
 			i++;
 			continue ;
 		}
-		tmp->cmd->argv = realloc_arr(tmp->cmd->argv, argv[i]);
+		if (strcmp(";", argv[i]) && strcmp("|", argv[i]))
+			tmp->cmd->argv = realloc_arr(tmp->cmd->argv, argv[i]);
 		i++;
 	}
 	if (i == 0)
@@ -231,23 +232,23 @@ int microshell(comand_block *block, char **envp)
 
 	while (block)
 	{
-			out = EXIT_SUCCESS;
-			if(!strcmp(block->cmd->name, "cd"))
-				cd(block->cmd, &out);
-			else
+		out = EXIT_SUCCESS;
+		if(!strcmp(block->cmd->name, "cd"))
+			cd(block->cmd, &out);
+		else
+		{
+			pipex(block->cmd, 0, envp);
+			pipe_block *tmp = block->cmd;
+			while(tmp)
 			{
-				pipex(block->cmd, 0, envp);
-				pipe_block *tmp = block->cmd;
-				while(tmp)
-				{
-					waitpid(0, &status, 0);
-					if (WIFEXITED(status))
-						out = WEXITSTATUS(status);
-					tmp = tmp->next;
-				}
+				waitpid(0, &status, 0);
+				if (WIFEXITED(status))
+					out = WEXITSTATUS(status);
+				tmp = tmp->next;
 			}
+		}
 		block = block->next;
-	}	
+	}
 	return (out);
 }
 
