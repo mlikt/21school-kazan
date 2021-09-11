@@ -209,11 +209,15 @@ void cd (comands *cmd, int *out)
 {
 	if (size_arr(cmd->argv) != 2)
 	{
+		exit_error("error: cd: bad arguments\n", NULL);
 		*out = EXIT_FAILURE;
 		return ;
 	}
 	if (chdir(cmd->argv[1]) != 0)
+	{
+		exit_error("error: cd: cannot change directory to ", NULL);
 		*out = EXIT_FAILURE;
+	}
 }
 
 int microshell(t_block *block, char **envp)
