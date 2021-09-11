@@ -7,13 +7,13 @@ typedef struct s
 	char		*name;
 	char		**argv;
 	struct s	*next;
-}	comands;
+}	pipe_block;
 
 typedef struct t
 {
-	comands 	*cmd;
+	pipe_block 	*cmd;
 	struct t 	*next;
-}	t_block;
+}	comand_block;
 
 size_t ft_strlen(char *str)
 {
@@ -44,9 +44,9 @@ void *malloc_x(size_t size)
 	return (ptr);
 }
 
-comands *create_cmd( void )
+pipe_block *create_cmd( void )
 {
-	comands *cmd = malloc_x(sizeof(comands));
+	pipe_block *cmd = malloc_x(sizeof(pipe_block));
 	cmd->name = NULL;
 	cmd->argv = malloc_x(sizeof(char *) * 2);
 	cmd->argv[0] = NULL;
@@ -55,9 +55,9 @@ comands *create_cmd( void )
 	return (cmd);
 }
 
-void free_cmd(comands *cmd)
+void free_cmd(pipe_block *cmd)
 {
-	comands *tmp;
+	pipe_block *tmp;
 
 	while (cmd)
 	{
@@ -68,9 +68,9 @@ void free_cmd(comands *cmd)
 	}
 }
 
-void free_block(t_block *block)
+void free_block(comand_block *block)
 {
-	t_block *tmp;
+	comand_block *tmp;
 
 	while (block)
 	{
@@ -81,9 +81,9 @@ void free_block(t_block *block)
 	}
 }
 
-t_block *create_block( void )
+comand_block *create_block( void )
 {
-	t_block *block = malloc_x(sizeof(t_block));
+	comand_block *block = malloc_x(sizeof(comand_block));
 	block->cmd = create_cmd();
 	block->next = NULL;
 	return (block);
@@ -115,11 +115,11 @@ char **realloc_arr(char **argv, char *new)
 	return (argv);
 }
 
-t_block *get_cmds(char **argv)
+comand_block *get_cmds(char **argv)
 {
-	t_block *block = create_block();
-	t_block *tmp = block;
-	comands *first_cmd = NULL;
+	comand_block *block = create_block();
+	comand_block *tmp = block;
+	pipe_block *first_cmd = NULL;
 	int i = 0;
 
 	while (argv[i])
@@ -171,7 +171,7 @@ t_block *get_cmds(char **argv)
 	return (block);
 }
 
-void pipex (comands *cmd, int in, char **envp)
+void pipex (pipe_block *cmd, int in, char **envp)
 {
 	int fd[2];
 	pid_t pid;
@@ -205,7 +205,7 @@ void pipex (comands *cmd, int in, char **envp)
 	}
 }
 
-void cd (comands *cmd, int *out)
+void cd (pipe_block *cmd, int *out)
 {
 	if (size_arr(cmd->argv) != 2)
 	{
@@ -222,7 +222,7 @@ void cd (comands *cmd, int *out)
 	}
 }
 
-int microshell(t_block *block, char **envp)
+int microshell(comand_block *block, char **envp)
 {
 	pid_t pid;
 	int out;
@@ -233,9 +233,10 @@ int microshell(t_block *block, char **envp)
 			out = EXIT_SUCCESS;
 			if(!strcmp(block->cmd->name, "cd"))
 				cd(block->cmd, &out);
-			else{
+			else
+			{
 				pipex(block->cmd, 0, envp);
-				comands *tmp = block->cmd;
+				pipe_block *tmp = block->cmd;
 				while(tmp)
 				{
 					waitpid(0, &status, 0);
@@ -252,7 +253,7 @@ int microshell(t_block *block, char **envp)
 int main (int argc, char **argv, char **envp)
 {
 	(void)argc;
-	t_block *block = get_cmds(argv + 1);
+	comand_block *block = get_cmds(argv + 1);
 	int out = EXIT_SUCCESS;
 
 	if (block)
