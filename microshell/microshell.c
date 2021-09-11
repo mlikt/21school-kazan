@@ -209,13 +209,15 @@ void cd (comands *cmd, int *out)
 {
 	if (size_arr(cmd->argv) != 2)
 	{
-		exit_error("error: cd: bad arguments\n", NULL);
+		write(2, "error: cd: bad arguments\n", 26);
 		*out = EXIT_FAILURE;
 		return ;
 	}
 	if (chdir(cmd->argv[1]) != 0)
 	{
-		exit_error("error: cd: cannot change directory to ", NULL);
+		write(2, "error: cd: cannot change directory to ", 39);
+		write(2, cmd->argv[1], ft_strlen(cmd->argv[1]));
+		write(2, "\n", 1);
 		*out = EXIT_FAILURE;
 	}
 }
