@@ -25,17 +25,6 @@ size_t ft_strlen(char *str)
 	return (i);
 }
 
-comands *create_cmd( void )
-{
-	comands *cmd = malloc(sizeof(comands));
-	cmd->name = NULL;
-	cmd->argv = malloc(sizeof(char *) * 2);
-	cmd->argv[0] = NULL;
-	cmd->argv[1] = NULL;
-	cmd->next = NULL;
-	return (cmd);
-}
-
 void exit_error(char *msg, char *arg)
 {
 	write(2, msg, ft_strlen(msg));
@@ -45,6 +34,24 @@ void exit_error(char *msg, char *arg)
 		write(2, "\n", 1);
 	}
 	exit(EXIT_FAILURE);
+}
+
+void *malloc_x(size_t size)
+{
+	void *ptr = malloc(size);
+	if (!ptr)
+		exit_error("error: fatal\n" , NULL);
+	return (ptr);
+}
+comands *create_cmd( void )
+{
+	comands *cmd = malloc_x(sizeof(comands));
+	cmd->name = NULL;
+	cmd->argv = malloc_x(sizeof(char *) * 2);
+	cmd->argv[0] = NULL;
+	cmd->argv[1] = NULL;
+	cmd->next = NULL;
+	return (cmd);
 }
 
 void free_cmd(comands *cmd)
@@ -75,7 +82,7 @@ void free_block(t_block *block)
 
 t_block *create_block( void )
 {
-	t_block *block = malloc(sizeof(t_block));
+	t_block *block = malloc_x(sizeof(t_block));
 	block->cmd = create_cmd();
 	block->next = NULL;
 	return (block);
@@ -95,7 +102,7 @@ char **realloc_arr(char **argv, char *new)
 	int i = 0;
 	tmp = argv;
 
-	argv = malloc((sizeof(char *) * size_arr(argv)) + (sizeof(char *) * 2));
+	argv = malloc_x((sizeof(char *) * size_arr(argv)) + (sizeof(char *) * 2));
 	while (tmp[i])
 	{
 		argv[i] = tmp[i];
@@ -170,7 +177,6 @@ void pipex (comands *cmd, int in, char **envp)
 	
 	if (!cmd)
 		return ;
-
 	if (cmd->next)
 		if(pipe(fd) == -1)
 			exit_error("error: fatal\n", NULL);
