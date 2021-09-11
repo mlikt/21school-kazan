@@ -43,6 +43,7 @@ void *malloc_x(size_t size)
 		exit_error("error: fatal\n" , NULL);
 	return (ptr);
 }
+
 comands *create_cmd( void )
 {
 	comands *cmd = malloc_x(sizeof(comands));
@@ -223,36 +224,20 @@ int microshell(t_block *block, char **envp)
 
 	while (block)
 	{
-		if(block->cmd->next)
-		{
-			pipex(block->cmd, 0, envp);
-			comands *tmp = block->cmd;
-			while(tmp)
-			{
-				waitpid(0, &status, 0);
-				if (WIFEXITED(status))
-					out = WEXITSTATUS(status);
-				tmp = tmp->next;
-			}
-		}
-		else
-		{
 			out = EXIT_SUCCESS;
 			if(!strcmp(block->cmd->name, "cd"))
 				cd(block->cmd, &out);
-			else
-			{
-				pid = fork();
-				if (!pid)
+			else{
+				pipex(block->cmd, 0, envp);
+				comands *tmp = block->cmd;
+				while(tmp)
 				{
-					execve(block->cmd->name, block->cmd->argv, envp);
-					exit_error("error: cannot execute ", block->cmd->name);
+					waitpid(0, &status, 0);
+					if (WIFEXITED(status))
+						out = WEXITSTATUS(status);
+					tmp = tmp->next;
 				}
-				waitpid(0, &status, 0);
-				if (WIFEXITED(status))
-					out = WEXITSTATUS(status);
 			}
-		}
 		block = block->next;
 	}	
 	return (out);
@@ -260,9 +245,9 @@ int microshell(t_block *block, char **envp)
 
 int main (int argc, char **argv, char **envp)
 {
+	(void)argc;
 	t_block *block = get_cmds(argv + 1);
 	int out = EXIT_SUCCESS;
-	(void)argc;
 
 	if (block)
 	{
