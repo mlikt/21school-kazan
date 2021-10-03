@@ -41,7 +41,7 @@ int main ( void )
 				pos = buf.find(s1, 0);
 				while(pos != std::string::npos)
 				{
-					buf.erase(pos, s2.length());
+					buf.erase(pos, s1.length());
 					buf.insert(pos, s2);
 					pos = buf.find(s1, pos + s2.length());
 				}
