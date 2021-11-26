@@ -26,9 +26,11 @@ public:
 	private:
 		Form		const	*example;
 		Bureaucrat	const	*br;
+		std::string out;
 	public:
 		GradeTooHighException(Form const &example);
 		GradeTooHighException(Form const &example, Bureaucrat const &br);
+		void CreateMsg(void);
 		virtual const char* what() const throw();
 		virtual ~GradeTooHighException() throw() {}
 	};
@@ -38,9 +40,11 @@ public:
 	private:
 		Form		const	*example;
 		Bureaucrat	const	*br;
+		std::string out;
 	public:
 		GradeTooLowException(Form const &example);
 		GradeTooLowException(Form const &example, Bureaucrat const &br);
+		void CreateMsg(void);
 		virtual const char *what() const throw();
 		virtual ~GradeTooLowException() throw() {}
 	};

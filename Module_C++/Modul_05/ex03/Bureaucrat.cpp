@@ -50,25 +50,27 @@ void Bureaucrat::executeForm (Form const & form){
 /* Функции обработчиков */
 
 Bureaucrat::GradeTooHighException::GradeTooHighException(const int &ranges, std::string const &name )
-:ranges(ranges), name(name) {}
+:ranges(ranges), name(name) { CreateMsg(); }
 
 
 Bureaucrat::GradeTooLowException::GradeTooLowException(const int &ranges, std::string const &name)
-: ranges(ranges), name(name){}
+: ranges(ranges), name(name){ CreateMsg(); }
+
+void Bureaucrat::GradeTooHighException::CreateMsg(){
+	out = this->name + " got an unacceptably high grade: " + std::to_string(this->ranges);
+}
 
 const char* Bureaucrat::GradeTooHighException::what() const throw()
 {
-	std::string out;
-
-	out = this->name + " got an unacceptably high grade: " + std::to_string(this->ranges);
 	return (out.c_str());
+}
+
+void Bureaucrat::GradeTooLowException::CreateMsg(){
+	out = this->name + " got an unacceptably low grade: " + std::to_string(this->ranges);
 }
 
 const char* Bureaucrat::GradeTooLowException::what() const throw()
 {
-	std::string out;
-
-	out = this->name + " got an unacceptably low grade: " + std::to_string(this->ranges);
 	return (out.c_str());
 }
 

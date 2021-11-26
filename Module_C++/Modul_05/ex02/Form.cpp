@@ -65,15 +65,13 @@ void Form::beSigned ( Bureaucrat const &br ) {
 
 Form::GradeTooHighException::GradeTooHighException(Form const &example)
 :example(&example), br(nullptr)
-{}
+{ CreateMsg(); }
 
 Form::GradeTooHighException::GradeTooHighException(Form const &example, Bureaucrat const &br)
 :example(&example), br(&br)
-{}
+{ CreateMsg(); }
 
-const char *Form::GradeTooHighException::what() const throw(){
-	std::string out;
-
+void Form::GradeTooHighException::CreateMsg() {
 	out = "Form " + this->example->name_form + " got an unacceptably high";
 	if (this->example->grade_sign <= 0)
 		out = out + " grade sign: " + std::to_string(this->example->grade_sign);
@@ -83,6 +81,9 @@ const char *Form::GradeTooHighException::what() const throw(){
 			out = out + " and";
 		out = out + " grade execute: " + std::to_string(this->example->grade_exec);
 	}
+}
+
+const char *Form::GradeTooHighException::what() const throw(){
 	return (out.c_str());
 }
 
@@ -92,19 +93,17 @@ const char *Form::GradeTooHighException::what() const throw(){
 
 Form::GradeTooLowException::GradeTooLowException(Form const &example)
 :example(&example), br(nullptr), execute(false)
-{}
+{ CreateMsg(); }
 
 Form::GradeTooLowException::GradeTooLowException(Form const &example, Bureaucrat const &br)
 :example(&example), br(&br), execute(false)
-{}
+{ CreateMsg(); }
 
 Form::GradeTooLowException::GradeTooLowException(Form const &example, Bureaucrat const &br, bool const &execute)
 :example(&example), br(&br), execute(execute)
-{}
+{ CreateMsg(); }
 
-const char *Form::GradeTooLowException::what() const throw(){
-	std::string out;
-
+void Form::GradeTooLowException::CreateMsg() {
 	if (!(this->br))
 	{
 		out = "Form " + this->example->name_form + " got an unacceptably low";
@@ -116,7 +115,7 @@ const char *Form::GradeTooLowException::what() const throw(){
 				out = out + " and";
 			out = out + " grade execute: " + std::to_string(this->example->grade_exec);
 		}
-		return (out.c_str());
+		return;
 	}
 	if (!(this->execute))
 	out = this->br->getName() + " cannot sign " + this->example->name_form
@@ -128,6 +127,9 @@ const char *Form::GradeTooLowException::what() const throw(){
 	+ " because, he does not have the appropriate qualifications.\n"
 	+ "Bob's qualifications(grade): " + std::to_string(this->br->getGrade())
 	+ "\nForm grade execute: " + std::to_string(this->example->grade_exec);
+}
+
+const char *Form::GradeTooLowException::what() const throw(){
 	return (out.c_str());
 }
 
@@ -137,13 +139,14 @@ const char *Form::GradeTooLowException::what() const throw(){
 
 Form::NoSignature::NoSignature(Form const &example, std::string const &target)
 : example(&example), target(&target)
-{}
+{ CreateMsg(); }
 
-const char *Form::NoSignature::what() const throw() {
-	std::string out;
+void Form::NoSignature::CreateMsg() {
 	out = "Forgiveness for the target of " + *(this->target) + 
 	" cannot be fulfilled because the " + 
 	this->example->name_form + " form has not been signed.";
+}
+const char *Form::NoSignature::what() const throw() {
 	return (out.c_str());
 }
 /* Конец описания методов класса Form::NoSignature */

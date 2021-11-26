@@ -24,8 +24,10 @@ public:
 		private:
 			int	ranges;
 			std::string const name;
+			std::string msg;
 		public:
 			GradeTooHighException(const int &ranges, std::string const &name);
+			GradeTooHighException(const int &ranges, std::string const &name, std::string err);
 			int			getGrade		( void ) const;
 			std::string	getName			( void ) const;
 			virtual const char*	what() const throw();
@@ -37,8 +39,10 @@ public:
 		private:
 			int ranges;
 			std::string const name;
+			std::string msg;
 		public:
 			GradeTooLowException(const int &ranges, std::string const &name);
+			GradeTooLowException(const int &ranges, std::string const &name, std::string err);
 			int			getGrade		( void ) const;
 			std::string	getName			( void ) const;
 			virtual const char*	what() const throw();

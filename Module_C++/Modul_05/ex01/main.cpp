@@ -9,6 +9,7 @@ int main ( void ){
 	/* Слишком высокие оценки Form */
 	try
 	{
+		// std::cout << "Code that will fail" << std::endl;
 		Form home("HomeForm", 33, -1);
 		std::cout << "Code that will fail" << std::endl;
 	}

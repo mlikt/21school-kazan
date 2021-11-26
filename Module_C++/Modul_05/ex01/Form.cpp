@@ -61,24 +61,25 @@ void Form::beSigned ( Bureaucrat const &br ) {
 
 Form::GradeTooHighException::GradeTooHighException(Form const &example)
 :example(&example), br(nullptr)
-{}
+{ CreateMsg(); }
 
 Form::GradeTooHighException::GradeTooHighException(Form const &example, Bureaucrat const &br)
 :example(&example), br(&br)
-{}
+{ CreateMsg(); }
 
-const char *Form::GradeTooHighException::what() const throw(){
-	std::string out;
-
-	out = "Form " + this->example->name_form + " got an unacceptably high";
+void Form::GradeTooHighException::CreateMsg(void){
+	this->out = "Form " + this->example->name_form + " got an unacceptably high";
 	if (this->example->grade_sign <= 0)
-		out = out + " grade sign: " + std::to_string(this->example->grade_sign);
+		this->out = this->out + " grade sign: " + std::to_string(this->example->grade_sign);
 	if (this->example->grade_exec <= 0)
 	{
 		if (this->example->grade_sign <= 0)
-			out = out + " and";
-		out = out + " grade execute: " + std::to_string(this->example->grade_exec);
+			this->out = this->out + " and";
+		this->out = this->out + " grade execute: " + std::to_string(this->example->grade_exec);
 	}
+};
+
+const char *Form::GradeTooHighException::what() const throw(){
 	return (out.c_str());
 }
 
@@ -88,15 +89,13 @@ const char *Form::GradeTooHighException::what() const throw(){
 
 Form::GradeTooLowException::GradeTooLowException(Form const &example)
 :example(&example), br(nullptr)
-{}
+{ CreateMsg(); }
 
 Form::GradeTooLowException::GradeTooLowException(Form const &example, Bureaucrat const &br)
 :example(&example), br(&br)
-{}
+{ CreateMsg(); }
 
-const char *Form::GradeTooLowException::what() const throw(){
-	std::string out;
-
+void Form::GradeTooLowException::CreateMsg(void){
 	if (!(this->br))
 	{
 		out = "Form " + this->example->name_form + " got an unacceptably low";
@@ -108,12 +107,15 @@ const char *Form::GradeTooLowException::what() const throw(){
 				out = out + " and";
 			out = out + " grade execute: " + std::to_string(this->example->grade_exec);
 		}
-		return (out.c_str());
+		return ;
 	}
 	out = this->br->getName() + " cannot sign " + this->example->name_form
 	+ " because, he does not have the appropriate qualifications.\n"
 	+ "Bob's qualifications(grade): " + std::to_string(this->br->getGrade())
 	+ "\nForm grade sign: " + std::to_string(this->example->grade_sign);
+};
+
+const char *Form::GradeTooLowException::what() const throw(){
 	return (out.c_str());
 }
 

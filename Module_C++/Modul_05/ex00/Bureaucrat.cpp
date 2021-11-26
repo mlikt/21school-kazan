@@ -6,9 +6,9 @@ Bureaucrat::Bureaucrat() :name("Unknow bureacrat"), ranges(150)
 Bureaucrat::Bureaucrat( std::string const &name, const int &ranges)
 :name(name), ranges(ranges) {
 	if (this->ranges > 150)
-		throw GradeTooLowException(this->ranges, this->name);
+		throw GradeTooLowException(this->ranges, this->name, this->name + " got an unacceptably low grade: " + std::to_string(this->ranges));
 	if (this->ranges <= 0)
-		throw GradeTooHighException(this->ranges, this->name);
+		throw GradeTooHighException(this->ranges, this->name, this->name + " got an unacceptably high grade: " + std::to_string(this->ranges));
 }
 
 Bureaucrat::Bureaucrat(Bureaucrat const &copy): name(copy.name), ranges(copy.ranges)
@@ -44,24 +44,24 @@ void Bureaucrat::downGrade ( void ){
 Bureaucrat::GradeTooHighException::GradeTooHighException(const int &ranges, std::string const &name )
 :ranges(ranges), name(name) {}
 
+Bureaucrat::GradeTooHighException::GradeTooHighException(const int &ranges, std::string const &name, std::string str)
+:ranges(ranges), name(name), msg(str) {}
+
 
 Bureaucrat::GradeTooLowException::GradeTooLowException(const int &ranges, std::string const &name)
 : ranges(ranges), name(name){}
 
+Bureaucrat::GradeTooLowException::GradeTooLowException(const int &ranges, std::string const &name, std::string str)
+: ranges(ranges), name(name), msg(str) {}
+
 const char* Bureaucrat::GradeTooHighException::what() const throw()
 {
-	std::string out;
-
-	out = this->name + " got an unacceptably high grade: " + std::to_string(this->ranges);
-	return (out.c_str());
+	return (msg.c_str());
 }
 
 const char* Bureaucrat::GradeTooLowException::what() const throw()
 {
-	std::string out;
-
-	out = this->name + " got an unacceptably low grade: " + std::to_string(this->ranges);
-	return (out.c_str());
+	return (msg.c_str());
 }
 
 std::ostream&	operator << ( std::ostream &os, const Bureaucrat &br ){

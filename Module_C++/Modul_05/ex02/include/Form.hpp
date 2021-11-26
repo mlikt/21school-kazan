@@ -27,9 +27,11 @@ public:
 	private:
 		Form		const	*example;
 		Bureaucrat	const	*br;
+		std::string			out;
 	public:
 		GradeTooHighException(Form const &example);
 		GradeTooHighException(Form const &example, Bureaucrat const &br);
+		void CreateMsg();
 		virtual const char* what() const throw();
 		virtual ~GradeTooHighException() throw() {}
 	};
@@ -40,10 +42,12 @@ public:
 		Form		const	*example;
 		Bureaucrat	const	*br;
 		bool				execute;
+		std::string			out;
 	public:
 		GradeTooLowException(Form const &example);
 		GradeTooLowException(Form const &example, Bureaucrat const &br);
 		GradeTooLowException(Form const &example, Bureaucrat const &br, bool const &execute);
+		void CreateMsg();
 		virtual const char *what() const throw();
 		virtual ~GradeTooLowException() throw() {}
 	};
@@ -53,8 +57,10 @@ public:
 	private:
 		Form		const	*example;
 		std::string const	*target;
+		std::string			out;
 	public:
 		NoSignature(Form const &example, std::string const &target);
+		void CreateMsg();
 		virtual const char *what() const throw();
 		virtual ~NoSignature() throw() {}
 	};
